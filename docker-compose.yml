@@ -27,7 +27,7 @@ services:
     image: grafana/grafana
     container_name: dzhai-grafana
     networks:
-      - grafana_network
+      - custom_network
     volumes:
       - ./grafana.ini:/etc/grafana/grafana.ini
       - grafana-data:/var/lib/grafana
@@ -39,5 +39,5 @@ volumes:
   grafana-data:
 
 networks:
-  grafana_network:
+  custom_network:
     driver: bridge
