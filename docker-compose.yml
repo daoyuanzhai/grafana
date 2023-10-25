@@ -26,6 +26,12 @@ services:
   grafana:
     image: grafana/grafana
     container_name: dzhai-grafana
+    volumes:
+      - ./grafana.ini:/etc/grafana/grafana.ini
+      - grafana-data:/var/lib/grafana
     ports:
       - "8082:3000"
     restart: unless-stopped
+
+volumes:
+  grafana-data:
