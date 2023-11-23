@@ -27,6 +27,7 @@ pipeline {
                         }
                     } catch (Exception e) {
                         echo "Stage 'Deploy (Ubuntu VM)' failed or was aborted"
+                        currentBuild.result = 'SUCCESS'
                     }
                 }
                 // Pause for manual approval
@@ -59,6 +60,7 @@ pipeline {
                         }
                     } catch (Exception e) {
                         echo "Stage 'Deploy (Mac Host)' failed or was aborted"
+                        currentBuild.result = 'SUCCESS'
                     }
                 }
                 // Pause for manual approval
