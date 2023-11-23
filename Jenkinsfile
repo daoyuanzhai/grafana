@@ -4,8 +4,10 @@ pipeline {
     stages {
         stage('Deploy (Ubuntu VM)') {
             steps {
-                input (message: 'Deploy to Ubuntu VM (Grafana included)?', ok: 'Yes',
-                  parameters: [booleanParam(name: 'deploy_ubuntu_vm', defaultValue: false)], timeout: time(minutes: 10))
+                input message: 'Deploy to Ubuntu VM (Grafana included)?',
+                    ok: 'Yes',
+                    parameters: [booleanParam(name: 'deploy_ubuntu_vm', defaultValue: false)],
+                    timeout: time(minutes: 10)
                 script {
                     if (params.deploy_ubuntu_vm) {
                         // Start an SSH agent and run Docker commands on the server
@@ -34,8 +36,10 @@ pipeline {
 
         stage('Deploy (Mac Host)') {
             steps {
-                input (message: 'Deploy to Mac Host (No Grafana)?', ok: 'Yes',
-                  parameters: [booleanParam(name: 'deploy_mac_host', defaultValue: false)], timeout: time(minutes: 10))
+                input message: 'Deploy to Mac Host (No Grafana)?',
+                    ok: 'Yes',
+                    parameters: [booleanParam(name: 'deploy_mac_host', defaultValue: false)],
+                    timeout: time(minutes: 10)
                 script {
                     if (params.deploy_mac_host) {
                         // Start an SSH agent and run Docker commands on the server
