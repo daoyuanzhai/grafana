@@ -58,6 +58,7 @@ pipeline {
                         def sshCommand = """
                             cd /Users/dzhai/Documents/grafana &&
                             git pull --rebase &&
+                            whoami &&
                             /usr/local/bin/docker-compose -f /Users/dzhai/Documents/grafana/docker-compose-no-grafana.yml down &&
                             /usr/local/bin/docker-compose -f /Users/dzhai/Documents/grafana/docker-compose-no-grafana.yml up -d
                         """
