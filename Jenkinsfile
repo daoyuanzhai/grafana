@@ -63,6 +63,8 @@ pipeline {
                             cd /Users/dzhai/Documents/grafana &&
                             git pull --rebase &&
                             whoami &&
+                            export PATH="/usr/local/bin:$PATH" &&
+                            echo $PATH &&
                             docker-compose -f /Users/dzhai/Documents/grafana/docker-compose-no-grafana.yml down &&
                             docker-compose -f /Users/dzhai/Documents/grafana/docker-compose-no-grafana.yml up -d
                         """
