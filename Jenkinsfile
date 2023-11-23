@@ -13,7 +13,7 @@ pipeline {
                         """
 
                         // Execute the SSH command
-                        def sshResult = sh(script: "ssh dzhai@192.168.0.12 '${sshCommand}'", returnStatus: true)
+                        def sshResult = sh(script: "ssh dzhai@192.168.0.12 -p 2212 '${sshCommand}'", returnStatus: true)
 
                         // Check the result of the SSH command
                         if (sshResult == 0) {
