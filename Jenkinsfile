@@ -8,8 +8,10 @@ pipeline {
                     // Start an SSH agent and run Docker commands on the server
                     sshagent(credentials: ['ssh-private-key-jenkins-container']) {
                         def sshCommand = """
-                            pwd &&
-                            cd /home/dzhai/Documents/grafana
+                            cd /home/dzhai/Documents/grafana &&
+                            git pull --rebase &&
+                            docker-compose -f /home/dzhai/Documents/grafana/docker-compose.yml down &&
+                            docker-compose -f /home/dzhai/Documents/grafana/docker-compose.yml up -d
                         """
 
                         // Execute the SSH command
