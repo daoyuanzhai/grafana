@@ -4,8 +4,10 @@ pipeline {
     stages {
         stage('Deploy (Ubuntu VM)') {
             steps {
+                input message: 'Deploy to Ubuntu VM (Grafana included)?', ok: 'Yes',
+                  parameters: [booleanParam(name: 'deploy_ubuntu_vm', defaultValue: false)], timeout: time(minutes: 10))
                 script {
-                    try {
+                    if (params.deploy_ubuntu_vm) {
                         // Start an SSH agent and run Docker commands on the server
                         sshagent(credentials: ['ssh-private-key-jenkins-container']) {
                             def sshCommand = """
@@ -25,20 +27,17 @@ pipeline {
                                 error "Error executing SSH command. Exit code: ${sshResult}"
                             }
                         }
-                    } catch (Exception e) {
-                        echo "Stage 'Deploy (Ubuntu VM)' failed or was aborted"
-                        currentBuild.result = 'SUCCESS'
                     }
                 }
-                // Pause for manual approval
-                input("Deploy to Ubuntu VM?")
             }
         }
 
         stage('Deploy (Mac Host)') {
             steps {
+                input message: 'Deploy to Mac Host (No Grafana)?', ok: 'Yes',
+                  parameters: [booleanParam(name: 'deploy_mac_host', defaultValue: false)], timeout: time(minutes: 10))
                 script {
-                    try {
+                    if (params.deploy_mac_host) {
                         // Start an SSH agent and run Docker commands on the server
                         sshagent(credentials: ['ssh-private-key-ubuntu-vm']) {
                             def sshCommand = """
@@ -58,13 +57,8 @@ pipeline {
                                 error "Error executing SSH command. Exit code: ${sshResult}"
                             }
                         }
-                    } catch (Exception e) {
-                        echo "Stage 'Deploy (Mac Host)' failed or was aborted"
-                        currentBuild.result = 'SUCCESS'
                     }
                 }
-                // Pause for manual approval
-                input("Deploy to Mac Host?")
             }
         }
     }
