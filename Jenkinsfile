@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Start an SSH agent and run Docker commands on the server
-                    sshagent(credentials: ['ssh-mac-home-server']) {
+                    sshagent(credentials: ['ssh-pi-home-server']) {
                         def sshCommand = """
                             cd ~/Documents/grafana
                         """
