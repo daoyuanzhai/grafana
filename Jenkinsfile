@@ -2,13 +2,19 @@ pipeline {
     agent any
 
     stages {
+        stage('Environment Selection') {
+            steps {
+                input message: 'Check the environment(s) to deploy:',
+                      ok: 'Yes',
+                      parameters: [booleanParam(name: 'ubuntu_vm', defaultValue: false),
+                                   booleanParam(name: 'mac_host', defaultValue: false)]
+            }
+        }
+
         stage('Deploy (Ubuntu VM)') {
             steps {
-                input message: 'Deploy to Ubuntu VM (Grafana included)?',
-                    ok: 'Yes',
-                    parameters: [booleanParam(name: 'deploy_ubuntu_vm', defaultValue: false)]
                 script {
-                    if (params.deploy_ubuntu_vm) {
+                    if (params.ubuntu_vm) {
                         // Start an SSH agent and run Docker commands on the server
                         sshagent(credentials: ['ssh-private-key-jenkins-container']) {
                             def sshCommand = """
@@ -35,11 +41,8 @@ pipeline {
 
         stage('Deploy (Mac Host)') {
             steps {
-                input message: 'Deploy to Mac Host (No Grafana)?',
-                    ok: 'Yes',
-                    parameters: [booleanParam(name: 'deploy_mac_host', defaultValue: false)]
                 script {
-                    if (params.deploy_mac_host) {
+                    if (params.mac_host) {
                         // Start an SSH agent and run Docker commands on the server
                         sshagent(credentials: ['ssh-private-key-ubuntu-vm']) {
                             def sshCommand = """
