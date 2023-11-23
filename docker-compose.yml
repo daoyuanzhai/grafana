@@ -4,13 +4,6 @@ services:
     image: prom/node-exporter
     container_name: dzhai-node-exporter
     network_mode: host
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-    command:
-      - --path.procfs=/host/proc
-      - --path.sysfs=/host/sys
-      - --collector.textfile.directory=/etc/node-exporter/
     restart: unless-stopped
 
   prometheus:

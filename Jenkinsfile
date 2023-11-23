@@ -58,8 +58,8 @@ pipeline {
                         def sshCommand = """
                             cd /Users/dzhai/Documents/grafana &&
                             git pull --rebase &&
-                            /usr/local/bin/docker-compose -f /Users/dzhai/Documents/grafana/docker-compose-no-grafana.yml down &&
-                            /usr/local/bin/docker-compose -f /Users/dzhai/Documents/grafana/docker-compose-no-grafana.yml up -d
+                            docker-compose -f /Users/dzhai/Documents/grafana/docker-compose-no-grafana.yml down &&
+                            docker-compose -f /Users/dzhai/Documents/grafana/docker-compose-no-grafana.yml up -d
                         """
 
                         // Execute the SSH command
