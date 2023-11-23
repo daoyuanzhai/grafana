@@ -4,17 +4,19 @@ pipeline {
     stages {
         stage('Environment Selection') {
             steps {
-                def env_select = input(
-                    message: 'Check the environment(s) to deploy:',
-                    ok: 'Go',
-                    parameters: [
-                        booleanParam(name: 'ubuntu_vm', defaultValue: false),
-                        booleanParam(name: 'mac_host', defaultValue: false)
-                    ]
-                )
+                script {
+                    def env_select = input(
+                        message: 'Check the environment(s) to deploy:',
+                        ok: 'Go',
+                        parameters: [
+                            booleanParam(name: 'ubuntu_vm', defaultValue: false),
+                            booleanParam(name: 'mac_host', defaultValue: false)
+                        ]
+                    )
 
-                env.DEPLOY_UBUNTU_VM = env_select.ubuntu_vm
-                env.DEPLOY_MAC_HOST = env_select.mac_host
+                    env.DEPLOY_UBUNTU_VM = env_select.ubuntu_vm
+                    env.DEPLOY_MAC_HOST = env_select.mac_host
+                }
             }
         }
 
