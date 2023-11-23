@@ -5,7 +5,7 @@ pipeline {
         stage('Deploy (Ubuntu VM)') {
             steps {
                 script {
-                    catchError(buildResult: 'SUCCESS') {
+                    try {
                         // Start an SSH agent and run Docker commands on the server
                         sshagent(credentials: ['ssh-private-key-jenkins-container']) {
                             def sshCommand = """
@@ -25,17 +25,19 @@ pipeline {
                                 error "Error executing SSH command. Exit code: ${sshResult}"
                             }
                         }
+                    } catch (Exception e) {
+                        echo "Stage 'Deploy (Ubuntu VM)' failed or was aborted"
                     }
                 }
-                // Pause for manual approval only if the first stage was successful
+                // Pause for manual approval
                 input("Deploy to Ubuntu VM?")
             }
         }
-        
+
         stage('Deploy (Mac Host)') {
             steps {
                 script {
-                    catchError(buildResult: 'SUCCESS') {
+                    try {
                         // Start an SSH agent and run Docker commands on the server
                         sshagent(credentials: ['ssh-private-key-ubuntu-vm']) {
                             def sshCommand = """
@@ -55,9 +57,11 @@ pipeline {
                                 error "Error executing SSH command. Exit code: ${sshResult}"
                             }
                         }
+                    } catch (Exception e) {
+                        echo "Stage 'Deploy (Mac Host)' failed or was aborted"
                     }
                 }
-                // Pause for manual approval only if the second stage was successful
+                // Pause for manual approval
                 input("Deploy to Mac Host?")
             }
         }
