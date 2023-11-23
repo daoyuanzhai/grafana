@@ -12,7 +12,6 @@ services:
       - --path.sysfs=/host/sys
       - --collector.textfile.directory=/etc/node-exporter/
     restart: unless-stopped
-
   prometheus:
     image: prom/prometheus
     container_name: dzhai-prometheus
