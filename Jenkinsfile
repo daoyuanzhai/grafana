@@ -8,6 +8,7 @@ pipeline {
                     // Start an SSH agent and run Docker commands on the server
                     sshagent(credentials: ['ssh-pi-home-server']) {
                         def sshCommand = """
+                            ll && pwd &&
                             cd /home/dzhai/Documents/grafana
                         """
 
